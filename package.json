@@ -1,0 +1,33 @@
+{
+  "name": "@tradle/merge-models",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tradle/merge-models.git"
+  },
+  "author": "Mark Vayngrib <mark@tradle.io>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "husky": "^0.13.3",
+    "tape": "^4.6.3"
+  },
+  "scripts": {
+    "test": "node test",
+    "lint": "eslint --quiet --ignore-path .gitignore .",
+    "prepush": "npm test"
+  },
+  "dependencies": {
+    "xtend": "^4.0.1"
+  },
+  "bugs": {
+    "url": "https://github.com/tradle/merge-models/issues"
+  },
+  "homepage": "https://github.com/tradle/merge-models#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [],
+  "description": ""
+}
