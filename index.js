@@ -6,7 +6,7 @@ const validateModel = require('@tradle/validate-model').model
 
 module.exports = function modelManager () {
   let byId = {}
-  const layers = []
+  let layers = []
   const emitter = new EventEmitter()
 
   function add (models, overwrite) {
@@ -75,6 +75,7 @@ module.exports = function modelManager () {
 
   function reset () {
     byId = {}
+    layers = []
     emitter.emit('change')
     return this
   }
