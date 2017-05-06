@@ -5,6 +5,7 @@ const shallowExtend = require('xtend/mutable')
 
 module.exports = function modelManager () {
   let byId = {}
+  const layers = []
   const emitter = new EventEmitter()
 
   function add (models, overwrite) {
@@ -17,9 +18,13 @@ module.exports = function modelManager () {
       }
     }
 
-    models.forEach(model => {
-      byId[model.id] = model
+    const layer = {}
+    models.forEach(model => {      
+      layer[model.id] = model
     })
+
+    layers.push(layer)
+    shallowExtend(byId, layer)
 
     emitter.emit('change')
     return this
@@ -71,6 +76,16 @@ module.exports = function modelManager () {
     return this
   }
 
+  function flatten (offset=0) {
+    if (offset === 0) return get()
+
+    const flat = {}
+    layers.slice(offset)
+      .forEach(layer => shallowExtend(flat, layer))
+
+    return flat
+  }
+
   return shallowExtend(emitter, {
     add,
     remove,
@@ -80,7 +95,11 @@ module.exports = function modelManager () {
     reset,
     forms: () => subClassOf('tradle.Form'),
     products: () => subClassOf('tradle.FinancialProduct'),
-    clone: () => modelManager().add(byId)
+    clone: () => modelManager().add(byId),
+    layers: () => layers.slice(),
+    base: () => layers[0],
+    rest: () => flatten(1),
+    flatten
   })
 }
 

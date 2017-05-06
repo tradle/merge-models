@@ -62,3 +62,42 @@ test('basic', function (t) {
 
   t.end()
 })
+
+test('layers', function (t) {
+  const models = createManager()
+  const A = {
+    type: 'tradle.Model',
+    id: 'tradle.A'
+  }
+
+  const B = {
+    type: 'tradle.Model',
+    id: 'tradle.B',
+    subClassOf: 'tradle.Form'
+  }
+
+  const base = {
+    [A.id]: A
+  }
+
+  models.add([A])
+  t.same(models.layers(), [base])
+  t.same(models.base(), base)
+  t.same(models.flatten(0), base)
+  t.same(models.rest(), {})
+  t.same(models.flatten(1), {})
+
+  models.add([B])
+  t.same(models.base(), base)
+  t.same(models.flatten(), models.get())
+  t.same(models.flatten(0), models.get())
+  t.same(models.flatten(1), {
+    [B.id]: B
+  })
+
+  t.same(models.rest(), {
+    [B.id]: B
+  })
+
+  t.end()
+})
