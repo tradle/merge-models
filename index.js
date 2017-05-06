@@ -2,6 +2,7 @@
 const { EventEmitter } = require('events')
 const shallowClone = require('xtend')
 const shallowExtend = require('xtend/mutable')
+const validateModel = require('@tradle/validate-model').model
 
 module.exports = function modelManager () {
   let byId = {}
@@ -12,9 +13,11 @@ module.exports = function modelManager () {
     // accept array or object
     models = values(models)
     if (!overwrite) {
-      const conflict = models.find(model => get(model.id))
-      if (conflict) {
-        throw new Error(`model ${conflict.id} already exists`)
+      for (let model of models ) {
+        validateModel(model)
+        if (get(model.id)) {
+          throw new Error(`model ${model.id} already exists`)
+        }
       }
     }
 
@@ -86,6 +89,10 @@ module.exports = function modelManager () {
     return flat
   }
 
+  function exportArray () {
+    return Object.keys(byId).map(id => byId[id])
+  }
+
   return shallowExtend(emitter, {
     add,
     remove,
@@ -99,6 +106,7 @@ module.exports = function modelManager () {
     layers: () => layers.slice(),
     base: () => layers[0],
     rest: () => flatten(1),
+    array: exportArray,
     flatten
   })
 }

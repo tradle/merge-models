@@ -19,6 +19,7 @@
     "prepush": "npm test"
   },
   "dependencies": {
+    "@tradle/validate-model": "tradle/validate-model",
     "xtend": "^4.0.1"
   },
   "bugs": {

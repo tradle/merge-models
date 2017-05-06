@@ -1,27 +1,37 @@
 const test = require('tape')
 const shallowClone = require('xtend')
 const createManager = require('../')
+const A = {
+  type: 'tradle.Model',
+  id: 'tradle.A',
+  title: 'A',
+  properties: {}
+}
+
+const B = {
+  type: 'tradle.Model',
+  id: 'tradle.B',
+  title: 'B',
+  subClassOf: 'tradle.Form',
+  interfaces: [
+    'tradle.Message'
+  ],
+  properties: {}
+}
 
 test('basic', function (t) {
   const models = createManager()
-  const A = {
-    type: 'tradle.Model',
-    id: 'tradle.A'
-  }
-
-  const B = {
-    type: 'tradle.Model',
-    id: 'tradle.B',
-    subClassOf: 'tradle.Form'
-  }
 
   t.same(models.get(), {})
+  t.same(models.array(), [])
   t.same(models.subClassOf('tradle.Form'), {})
   models.add([A])
 
   t.same(models.get(), {
     [A.id]: A
   })
+
+  t.same(models.array(), [A])
 
   t.same(models.clone().get(), {
     [A.id]: A
@@ -34,7 +44,7 @@ test('basic', function (t) {
   }, /exists/)
 
   const updatedA = shallowClone(A, {
-    properties: {}
+    title: 'A1'
   })
 
   models.update([updatedA])
@@ -65,17 +75,6 @@ test('basic', function (t) {
 
 test('layers', function (t) {
   const models = createManager()
-  const A = {
-    type: 'tradle.Model',
-    id: 'tradle.A'
-  }
-
-  const B = {
-    type: 'tradle.Model',
-    id: 'tradle.B',
-    subClassOf: 'tradle.Form'
-  }
-
   const base = {
     [A.id]: A
   }
