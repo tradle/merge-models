@@ -9,6 +9,7 @@
   "author": "Mark Vayngrib <mark@tradle.io>",
   "license": "MIT",
   "devDependencies": {
+    "@tradle/validate-model": "tradle/validate-model",
     "eslint": "^3.19.0",
     "husky": "^0.13.3",
     "tape": "^4.6.3"
@@ -19,8 +20,10 @@
     "prepush": "npm test"
   },
   "dependencies": {
-    "@tradle/validate-model": "tradle/validate-model",
     "xtend": "^4.0.1"
+  },
+  "peerDependencies": {
+    "@tradle/validate-model": "*"
   },
   "bugs": {
     "url": "https://github.com/tradle/merge-models/issues"
