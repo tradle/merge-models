@@ -22,7 +22,7 @@ module.exports = function modelManager () {
     }
 
     const layer = {}
-    models.forEach(model => {      
+    models.forEach(model => {
       layer[model.id] = model
     })
 
@@ -64,6 +64,10 @@ module.exports = function modelManager () {
     [].concat(ids).forEach(id => {
       if (id in byId) {
         delete byId[id]
+        layers.forEach(layer => {
+          delete layer[id]
+        })
+
         updated = true
       }
     })

@@ -98,5 +98,8 @@ test('layers', function (t) {
     [B.id]: B
   })
 
+  models.remove([B.id])
+  t.same(models.rest(), {})
+
   t.end()
 })
