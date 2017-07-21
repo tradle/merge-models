@@ -2,6 +2,7 @@
 const { EventEmitter } = require('events')
 const shallowClone = require('xtend')
 const shallowExtend = require('xtend/mutable')
+const deepEqual = require('deep-equal')
 const validateModels = require('@tradle/validate-model')
 
 module.exports = function modelManager () {
@@ -17,14 +18,16 @@ module.exports = function modelManager () {
     const { overwrite, validate=true } = opts
 
     // accept array or object
-    models = values(models)
-    if (!overwrite) {
-      for (let model of models ) {
-        if (get(model.id)) {
+    models = values(models).filter(model => {
+      const existing = get(model.id)
+      if (existing && !deepEqual(existing, model)) {
+        if (!overwrite) {
           throw new Error(`model ${model.id} already exists`)
         }
       }
-    }
+
+      return true
+    })
 
     const layer = {}
     models.forEach(model => {

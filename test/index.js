@@ -40,10 +40,6 @@ test('basic', function (t) {
 
   t.same(models.subClassOf('tradle.Form'), {})
 
-  t.throws(function () {
-    models.add([A])
-  }, /exists/)
-
   const updatedA = shallowClone(A, {
     title: 'A1'
   })
