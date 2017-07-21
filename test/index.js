@@ -1,5 +1,6 @@
 const test = require('tape')
 const shallowClone = require('xtend')
+const DEFAULT_MODELS = require('@tradle/models').models
 const createManager = require('../')
 const A = {
   type: 'tradle.Model',
@@ -14,7 +15,7 @@ const B = {
   title: 'B',
   subClassOf: 'tradle.Form',
   interfaces: [
-    'tradle.Message'
+    'tradle.ChatItem'
   ],
   properties: {}
 }
@@ -52,18 +53,21 @@ test('basic', function (t) {
     [A.id]: updatedA
   })
 
-  models.add([B])
-  t.same(models.get(), {
-    [A.id]: updatedA,
+  models.reset()
+  models
+    .add(DEFAULT_MODELS)
+    .add([A])
+    .add([B])
+
+  t.same(models.rest(), {
+    [A.id]: A,
     [B.id]: B
   })
 
-  t.same(models.subClassOf('tradle.Form'), {
-    [B.id]: B
-  })
+  t.same(models.subClassOf('tradle.Form')[B.id], B)
 
   models.remove(A.id)
-  t.same(models.get(), {
+  t.same(models.rest(), {
     [B.id]: B
   })
 
@@ -86,20 +90,40 @@ test('layers', function (t) {
   t.same(models.rest(), {})
   t.same(models.flatten(1), {})
 
-  models.add([B])
-  t.same(models.base(), base)
+  models.reset()
+    .add(DEFAULT_MODELS)
+    .add([A])
+    .add([B])
+
   t.same(models.flatten(), models.get())
   t.same(models.flatten(0), models.get())
-  t.same(models.flatten(1), {
+  t.same(models.flatten(2), {
     [B.id]: B
   })
 
   t.same(models.rest(), {
+    [A.id]: A,
     [B.id]: B
   })
 
   models.remove([B.id])
-  t.same(models.rest(), {})
+  t.same(models.rest(), {
+    [A.id]: A
+  })
 
+  models.remove(DEFAULT_MODELS.map(m => m.id))
+  t.same(models.get(), {
+    [A.id]: A
+  })
+
+  t.end()
+})
+
+test('validate', function (t) {
+  const models = createManager()
+
+  models.add([A], { validate: true })
+  t.throws(() => models.add([B]), /tradle.Form/)
+  t.doesNotThrow(() => models.add([B], { validate: false }))
   t.end()
 })

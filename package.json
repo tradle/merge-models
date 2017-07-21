@@ -9,7 +9,8 @@
   "author": "Mark Vayngrib <mark@tradle.io>",
   "license": "MIT",
   "devDependencies": {
-    "@tradle/validate-model": "tradle/validate-model",
+    "@tradle/models": "https://github.com/tradle/models",
+    "@tradle/validate-model": "github:tradle/validate-model",
     "eslint": "^3.19.0",
     "husky": "^0.13.3",
     "tape": "^4.6.3"
