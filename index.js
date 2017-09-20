@@ -20,9 +20,13 @@ module.exports = function modelManager () {
     // accept array or object
     models = values(models).filter(model => {
       const existing = get(model.id)
-      if (existing && !deepEqual(existing, model)) {
+      if (existing) {
         if (!overwrite) {
-          throw new Error(`model ${model.id} already exists`)
+          if (!deepEqual(existing, model)) {
+            throw new Error(`model ${model.id} already exists`)
+          }
+
+          return false
         }
       }
 
