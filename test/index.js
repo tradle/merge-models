@@ -14,9 +14,6 @@ const B = {
   id: 'tradle.B',
   title: 'B',
   subClassOf: 'tradle.Form',
-  interfaces: [
-    'tradle.ChatItem'
-  ],
   properties: {}
 }
 
@@ -107,7 +104,7 @@ test('layers', function (t) {
     [A.id]: A
   })
 
-  models.remove(DEFAULT_MODELS.map(m => m.id))
+  models.remove(Object.keys(DEFAULT_MODELS))
   t.same(models.get(), {
     [A.id]: A
   })
