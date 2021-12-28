@@ -1,5 +1,4 @@
 const test = require('tape')
-const shallowClone = require('xtend')
 const DEFAULT_MODELS = require('@tradle/models').models
 const createManager = require('../')
 const A = {
@@ -37,9 +36,10 @@ test('basic', function (t) {
 
   t.same(models.subClassOf('tradle.Form'), {})
 
-  const updatedA = shallowClone(A, {
+  const updatedA = {
+    ...A,
     title: 'A1'
-  })
+  }
 
   models.update([updatedA])
   t.same(models.get(), {
