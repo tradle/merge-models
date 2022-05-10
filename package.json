@@ -21,8 +21,12 @@
     "lint": "standard",
     "prepush": "npm test"
   },
+  "bin": {
+    "validate-model": "./bin/validate-model"
+  },
   "dependencies": {
-    "deep-equal": "^2.0.5"
+    "deep-equal": "^2.0.5",
+    "minimist": "^1.2.6"
   },
   "peerDependencies": {
     "@tradle/validate-model": "*"
