@@ -10,10 +10,11 @@
   "license": "MIT",
   "devDependencies": {
     "@tradle/models": "github:tradle/models",
-    "@tradle/validate-model": "^7.1.33",
-    "husky": "^0.13.3",
-    "standard": "^16.0.4",
-    "tape": "^4.6.3"
+    "@tradle/validate-model": "^7.1.40",
+    "c8": "^7.11.2",
+    "husky": "^8.0.1",
+    "standard": "^17.0.0",
+    "tape": "^5.5.3"
   },
   "scripts": {
     "test": "node test",
@@ -21,7 +22,7 @@
     "prepush": "npm test"
   },
   "dependencies": {
-    "deep-equal": "^1.0.1"
+    "deep-equal": "^2.0.5"
   },
   "peerDependencies": {
     "@tradle/validate-model": "*"
